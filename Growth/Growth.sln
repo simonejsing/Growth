@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralTree", "ProceduralTree\ProceduralTree.csproj", "{A87912EF-58C1-4D49-8865-B841C56CA52B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameWorld", "GameWorld\GameWorld.csproj", "{A87912EF-58C1-4D49-8865-B841C56CA52B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGame", "WindowsGame\WindowsGame.csproj", "{D4A2DE27-F2B0-468C-AF5D-42FC2F43CF2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameWorld.UnitTests", "GameWorld.UnitTests\GameWorld.UnitTests.csproj", "{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,14 @@ Global
 		{D4A2DE27-F2B0-468C-AF5D-42FC2F43CF2A}.Release|Any CPU.ActiveCfg = Release|x86
 		{D4A2DE27-F2B0-468C-AF5D-42FC2F43CF2A}.Release|x86.ActiveCfg = Release|x86
 		{D4A2DE27-F2B0-468C-AF5D-42FC2F43CF2A}.Release|x86.Build.0 = Release|x86
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C6F9654-DB26-4C15-AB0B-E3C7D2CAA79B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

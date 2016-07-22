@@ -56,9 +56,9 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProceduralTree\ProceduralTree.csproj">
+    <ProjectReference Include="..\GameWorld\GameWorld.csproj">
       <Project>{a87912ef-58c1-4d49-8865-b841c56ca52b}</Project>
-      <Name>ProceduralTree</Name>
+      <Name>GameWorld</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
