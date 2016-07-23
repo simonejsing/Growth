@@ -10,19 +10,12 @@ namespace MonoShims
     public class Renderer
     {
         private SpriteFont DefaultFont;
-        private SpriteLibrary sprites;
         private Matrix2x2 Transformation;
         private Texture2D Pixel;
 
         public Renderer(ContentManager manager)
         {
             Pixel = manager.Load<Texture2D>(@"Sprites\pixel");
-
-            sprites = new SpriteLibrary(manager);
-            sprites.LoadSprite(SpriteLibrary.SpriteIdentifier.Player, @"Sprites\red-player-1");
-            sprites.LoadSprite(SpriteLibrary.SpriteIdentifier.Block, @"Sprites\block");
-            sprites.LoadSprite(SpriteLibrary.SpriteIdentifier.Spikes, @"Sprites\spikes");
-            sprites.LoadSprite(SpriteLibrary.SpriteIdentifier.Coin, @"Sprites\coin");
 
             DefaultFont = manager.Load<SpriteFont>("DefaultFont");
 
@@ -71,12 +64,12 @@ namespace MonoShims
             spriteBatch.Draw(Pixel, ToXnaVector(Transformation * position), color);
         }
 
-        public void RenderOpagueSprite(SpriteBatch spriteBatch, SpriteLibrary.SpriteIdentifier spriteIdentifier, Vector2 position, Vector2 size)
-        {
-            var xnaVector = ToXnaVector(Transformation * position);
-            var xnaRect = new Rectangle(xnaVector.ToPoint(), ToXnaPoint(size));
-            spriteBatch.Draw(sprites.GetSprite(spriteIdentifier), xnaRect, Color.White);
-        }
+        //public void RenderOpagueSprite(SpriteBatch spriteBatch, SpriteLibrary.SpriteIdentifier spriteIdentifier, Vector2 position, Vector2 size)
+        //{
+        //    var xnaVector = ToXnaVector(Transformation * position);
+        //    var xnaRect = new Rectangle(xnaVector.ToPoint(), ToXnaPoint(size));
+        //    spriteBatch.Draw(sprites.GetSprite(spriteIdentifier), xnaRect, Color.White);
+        //}
 
         private static Point ToXnaPoint(Vector2 v)
         {
