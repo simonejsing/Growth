@@ -75,6 +75,9 @@ namespace WindowsGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // Lets draw a tree
+
+
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
