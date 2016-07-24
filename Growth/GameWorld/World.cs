@@ -9,9 +9,7 @@ namespace GameWorld
 {
     public class World
     {
-        public const float BranchLength = 30f;
-        public const float GrowthFreedom = (float)(2 * Math.PI / 8);
-        public const float SubbranchFreedom = (float)(Math.PI / 4);
+        public const float MainBranchLength = 30f;
 
         public int Seed { get; }
         public ProceduralTree Tree { get; }
@@ -21,9 +19,9 @@ namespace GameWorld
         public World(int seed)
         {
             Seed = seed;
-            Tree = new ProceduralTree(seed);
-
             random = new Random(Seed);
+
+            Tree = new ProceduralTree(random);
 
             // Add the four main branches in each quadrant
             for (int i = 1; i <= 4; i++)
@@ -37,22 +35,14 @@ namespace GameWorld
                 var segment = branch;
                 for (int i = 0; i < 3; i++)
                 {
-                    // Sub-branches
-                    var direction = segment.Vector;
+                    // Set sub-branches
                     for (int j = i; j < 2; j++)
                     {
-                        var subbranchAdjustment = 0.1f + (float)(random.NextDouble()) * SubbranchFreedom;
-                        // Flip?
-                        if (random.NextDouble() > 0.5)
-                        {
-                            subbranchAdjustment = -subbranchAdjustment;
-                        }
-                        AddBranch(segment, direction.Rotate(subbranchAdjustment).Normalize(), BranchLength / 2.0f);
+                        segment.SetSubbranch();
                     }
 
-                    // Continue the branch
-                    var growthAdjustment = (float)(random.NextDouble() - 0.5) * GrowthFreedom;
-                    segment = AddBranch(segment, segment.Vector.Rotate(growthAdjustment).Normalize(), BranchLength);
+                    // Grow the branch
+                    segment = segment.Grow();
                 }
             }
         }
@@ -74,19 +64,9 @@ namespace GameWorld
             }
         }
 
-        private ProceduralTreeBranch AddMainBranch(UnitVector2 direction)
+        private void AddMainBranch(UnitVector2 direction)
         {
-            return AddBranch(Tree.Stem, direction, BranchLength);
-        }
-
-        private ProceduralTreeBranch AddBranch(ProceduralTreeBranch parentBranch, UnitVector2 direction, float length)
-        {
-            var newBranch = new ProceduralTreeBranch(parentBranch, length*direction);
-            Tree.AddBranch(
-                parentBranch,
-                newBranch);
-
-            return newBranch;
+            Tree.Stem.AddBranch(new ProceduralTreeBranch(Tree, Tree.Stem, direction * MainBranchLength));
         }
     }
 }

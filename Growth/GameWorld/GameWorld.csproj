@@ -41,6 +41,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IGrowthFunction.cs" />
+    <Compile Include="NaturalGrowth.cs" />
     <Compile Include="ProceduralTree.cs" />
     <Compile Include="ProceduralTreeBranch.cs" />
     <Compile Include="ProceduralTreeStem.cs" />

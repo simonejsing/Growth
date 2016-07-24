@@ -9,7 +9,7 @@ namespace GameWorld
         public override Vector2 Origin => new Lazy<Vector2>(() => Vector2.Zero).Value;
         public override float Thickness => 6f;
 
-        internal ProceduralTreeStem(Vector2 vector) : base(null, vector)
+        internal ProceduralTreeStem(ProceduralTree tree, Vector2 vector) : base(tree, null, vector)
         {
         }
     }

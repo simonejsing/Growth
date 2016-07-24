@@ -9,14 +9,14 @@ namespace GameWorld
 {
     public class ProceduralTree
     {
-        private int Seed;
+        public Random Random { get; }
 
         public ProceduralTreeBranch Stem { get; private set; }
 
-        public ProceduralTree(int seed)
+        public ProceduralTree(Random random)
         {
-            Seed = seed;
-            Stem = new ProceduralTreeStem(new Vector2(0, 100));
+            Random = random;
+            Stem = new ProceduralTreeStem(this, new Vector2(0, 100));
         }
 
         public void AddBranch(ProceduralTreeBranch parentBranch, ProceduralTreeBranch newBranch)
