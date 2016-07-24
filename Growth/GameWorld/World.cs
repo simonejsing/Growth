@@ -11,6 +11,7 @@ namespace GameWorld
     {
         public const float BranchLength = 30f;
         public const float GrowthFreedom = (float)(2 * Math.PI / 8);
+        public const float SubbranchFreedom = (float)(8 * Math.PI / 10);
 
         public int Seed { get; }
         public ProceduralTree Tree { get; }
@@ -22,7 +23,7 @@ namespace GameWorld
             Seed = seed;
             Tree = new ProceduralTree(seed);
 
-            random = new Random(Seed);
+            random = new Random();
 
             // Add the four main branches in each quadrant
             for (int i = 1; i <= 4; i++)
@@ -34,8 +35,22 @@ namespace GameWorld
             foreach (var branch in Tree.Stem.Branches)
             {
                 var segment = branch;
-                for (int i = 0; i < 3; i++)
+                for (int i = 3; i > 0; i--)
                 {
+                    // Sub-branches
+                    var perpendicular = segment.Vector.Hat();
+                    for (int j = 0; j < i - 1; j++)
+                    {
+                        var subbranchAdjustment = (float)(random.NextDouble() - 0.5) * SubbranchFreedom;
+                        // Flip?
+                        if (random.NextDouble() > 0.5)
+                        {
+                            subbranchAdjustment += (float)Math.PI;
+                        }
+                        AddBranch(segment, perpendicular.Rotate(subbranchAdjustment).Normalize());
+                    }
+
+                    // Continue the branch
                     var growthAdjustment = (float)(random.NextDouble() - 0.5) * GrowthFreedom;
                     segment = AddBranch(segment, segment.Vector.Rotate(growthAdjustment).Normalize());
                 }

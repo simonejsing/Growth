@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VectorMath;
 
 namespace GameWorld
@@ -10,6 +11,7 @@ namespace GameWorld
         public IEnumerable<ProceduralTreeBranch> Branches => branchList;
 
         public ProceduralTreeBranch Parent { get; set; }
+        public virtual Vector2 Origin => new Lazy<Vector2>(() => Parent.Origin + Parent.Vector).Value;
         public Vector2 Vector { get; private set; }
         public virtual float Thickness => 1f;
 

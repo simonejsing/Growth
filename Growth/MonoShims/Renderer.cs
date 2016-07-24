@@ -11,6 +11,7 @@ namespace MonoShims
     {
         private SpriteFont DefaultFont;
         private Matrix2x2 Transformation;
+        private Vector2 Translation;
         private Texture2D Pixel;
 
         public Renderer(ContentManager manager)
@@ -19,8 +20,19 @@ namespace MonoShims
 
             DefaultFont = manager.Load<SpriteFont>("DefaultFont");
 
+            ResetTransformation();
+        }
+
+        public void ResetTransformation()
+        {
             // Mirror y-axis
+            Translation = Vector2.Zero;
             Transformation = new Matrix2x2(new Vector2(1, 0), new Vector2(0, -1));
+        }
+
+        public void Translate(Vector2 translation)
+        {
+            Translation += Transformation * translation;
         }
 
         public void DrawVector(SpriteBatch spriteBatch, Vector2 origin, Vector2 vector, Color color, float thickness = 1.0f)
@@ -28,13 +40,13 @@ namespace MonoShims
             var to = origin + vector;
             RenderLine(
                 spriteBatch,
-                Transformation * origin,
-                Transformation * to,
+                Transformation * origin + Translation,
+                Transformation * to + Translation,
                 color,
                 thickness);
         }
 
-        public void RenderLine(SpriteBatch spriteBatch, Vector2 point1, Vector2 point2, Color color, float thickness)
+        private void RenderLine(SpriteBatch spriteBatch, Vector2 point1, Vector2 point2, Color color, float thickness)
         {
             // calculate the distance between the two vectors
             float distance = Vector2.DistanceBetween(point1, point2);
@@ -45,7 +57,7 @@ namespace MonoShims
             DrawLine(spriteBatch, point1, distance, angle, color, thickness);
         }
 
-        public void DrawLine(SpriteBatch spriteBatch, Vector2 point, float length, float angle, Color color, float thickness)
+        private void DrawLine(SpriteBatch spriteBatch, Vector2 point, float length, float angle, Color color, float thickness)
         {
             // stretch the pixel between the two vectors
             spriteBatch.Draw(Pixel,
@@ -61,7 +73,7 @@ namespace MonoShims
 
         public void RenderPixel(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
-            spriteBatch.Draw(Pixel, ToXnaVector(Transformation * position), color);
+            spriteBatch.Draw(Pixel, ToXnaVector(Transformation * position + Translation), color);
         }
 
         //public void RenderOpagueSprite(SpriteBatch spriteBatch, SpriteLibrary.SpriteIdentifier spriteIdentifier, Vector2 position, Vector2 size)
@@ -81,7 +93,7 @@ namespace MonoShims
             spriteBatch.DrawString(
                 DefaultFont,
                 text,
-                ToXnaVector(Transformation * origin),
+                ToXnaVector(Transformation * origin + Translation),
                 color);
         }
 

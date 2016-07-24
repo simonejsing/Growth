@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GameWorld;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -84,36 +85,39 @@ namespace WindowsGame
 
             // Lets draw a tree
             spriteBatch.Begin();
-            var origin = new Vector2(300, -300);
-            DrawBranch(origin, World.Tree.Stem);
+            Renderer.ResetTransformation();
+            Renderer.Translate(new Vector2(300, -300));
+            DrawBranch(World.Tree.Stem);
 
-            origin += World.Tree.Stem.Vector;
             foreach (var mainBranch in World.Tree.Stem.Branches)
             {
-                DrawBranchSegments(origin, mainBranch);
+                DrawBranchSegments(mainBranch);
             }
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void DrawBranchSegments(Vector2 origin, ProceduralTreeBranch mainBranch)
+        private void DrawBranchSegments(ProceduralTreeBranch mainBranch)
         {
-            var position = origin;
-            DrawBranch(position, mainBranch);
-            position += mainBranch.Vector;
+            Stack<ProceduralTreeBranch> frontier = new Stack<ProceduralTreeBranch>();
+            frontier.Push(mainBranch);
 
-            var branch = mainBranch;
-            while((branch = branch.Branches.FirstOrDefault()) != null)
+            while (frontier.Any())
             {
-                DrawBranch(position, branch);
-                position += branch.Vector;
+                var nextBranch = frontier.Pop();
+                DrawBranch(nextBranch);
+
+                foreach (var branch in nextBranch.Branches)
+                {
+                    frontier.Push(branch);
+                }
             }
         }
 
-        private void DrawBranch(Vector2 origin, ProceduralTreeBranch branch)
+        private void DrawBranch(ProceduralTreeBranch branch)
         {
-            Renderer.DrawVector(spriteBatch, origin, branch.Vector, Color.Black, branch.Thickness);
+            Renderer.DrawVector(spriteBatch, branch.Origin, branch.Vector, Color.Black, branch.Thickness);
         }
     }
 }
