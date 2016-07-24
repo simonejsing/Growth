@@ -19,7 +19,9 @@ namespace WindowsGame
         SpriteBatch spriteBatch;
 
         private Renderer Renderer;
-        private World World;
+        private World World1;
+        private World World2;
+        private World World3;
 
         public Game1()
         {
@@ -35,7 +37,9 @@ namespace WindowsGame
         /// </summary>
         protected override void Initialize()
         {
-            World = new World(42);
+            World1 = new World(42);
+            World2 = new World(100);
+            World3 = new World(1982);
             base.Initialize();
         }
 
@@ -86,16 +90,25 @@ namespace WindowsGame
             // Lets draw a tree
             spriteBatch.Begin();
             Renderer.ResetTransformation();
-            Renderer.Translate(new Vector2(300, -300));
-            DrawBranch(World.Tree.Stem);
-
-            foreach (var mainBranch in World.Tree.Stem.Branches)
-            {
-                DrawBranchSegments(mainBranch);
-            }
+            Renderer.Translate(new Vector2(200, -300));
+            RenderTree(World1.Tree);
+            Renderer.Translate(new Vector2(150, 0));
+            RenderTree(World2.Tree);
+            Renderer.Translate(new Vector2(150, 0));
+            RenderTree(World3.Tree);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void RenderTree(ProceduralTree tree)
+        {
+            DrawBranch(tree.Stem);
+
+            foreach (var mainBranch in tree.Stem.Branches)
+            {
+                DrawBranchSegments(mainBranch);
+            }
         }
 
         private void DrawBranchSegments(ProceduralTreeBranch mainBranch)

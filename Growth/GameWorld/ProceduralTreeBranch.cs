@@ -13,7 +13,7 @@ namespace GameWorld
         public ProceduralTreeBranch Parent { get; set; }
         public virtual Vector2 Origin => new Lazy<Vector2>(() => Parent.Origin + Parent.Vector).Value;
         public Vector2 Vector { get; private set; }
-        public virtual float Thickness => 1f;
+        public virtual float Thickness => new Lazy<float>(() => Math.Max(1.0f, Parent.Thickness - 1.0f)).Value;
 
         internal ProceduralTreeBranch(ProceduralTreeBranch parent, Vector2 vector)
         {

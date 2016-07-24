@@ -11,7 +11,7 @@ namespace GameWorld
     {
         public const float BranchLength = 30f;
         public const float GrowthFreedom = (float)(2 * Math.PI / 8);
-        public const float SubbranchFreedom = (float)(8 * Math.PI / 10);
+        public const float SubbranchFreedom = (float)(Math.PI / 4);
 
         public int Seed { get; }
         public ProceduralTree Tree { get; }
@@ -23,7 +23,7 @@ namespace GameWorld
             Seed = seed;
             Tree = new ProceduralTree(seed);
 
-            random = new Random();
+            random = new Random(Seed);
 
             // Add the four main branches in each quadrant
             for (int i = 1; i <= 4; i++)
@@ -35,24 +35,24 @@ namespace GameWorld
             foreach (var branch in Tree.Stem.Branches)
             {
                 var segment = branch;
-                for (int i = 3; i > 0; i--)
+                for (int i = 0; i < 3; i++)
                 {
                     // Sub-branches
-                    var perpendicular = segment.Vector.Hat();
-                    for (int j = 0; j < i - 1; j++)
+                    var direction = segment.Vector;
+                    for (int j = i; j < 2; j++)
                     {
-                        var subbranchAdjustment = (float)(random.NextDouble() - 0.5) * SubbranchFreedom;
+                        var subbranchAdjustment = 0.1f + (float)(random.NextDouble()) * SubbranchFreedom;
                         // Flip?
                         if (random.NextDouble() > 0.5)
                         {
-                            subbranchAdjustment += (float)Math.PI;
+                            subbranchAdjustment = -subbranchAdjustment;
                         }
-                        AddBranch(segment, perpendicular.Rotate(subbranchAdjustment).Normalize());
+                        AddBranch(segment, direction.Rotate(subbranchAdjustment).Normalize(), BranchLength / 2.0f);
                     }
 
                     // Continue the branch
                     var growthAdjustment = (float)(random.NextDouble() - 0.5) * GrowthFreedom;
-                    segment = AddBranch(segment, segment.Vector.Rotate(growthAdjustment).Normalize());
+                    segment = AddBranch(segment, segment.Vector.Rotate(growthAdjustment).Normalize(), BranchLength);
                 }
             }
         }
@@ -76,12 +76,12 @@ namespace GameWorld
 
         private ProceduralTreeBranch AddMainBranch(UnitVector2 direction)
         {
-            return AddBranch(Tree.Stem, direction);
+            return AddBranch(Tree.Stem, direction, BranchLength);
         }
 
-        private ProceduralTreeBranch AddBranch(ProceduralTreeBranch parentBranch, UnitVector2 direction)
+        private ProceduralTreeBranch AddBranch(ProceduralTreeBranch parentBranch, UnitVector2 direction, float length)
         {
-            var newBranch = new ProceduralTreeBranch(parentBranch, BranchLength*direction);
+            var newBranch = new ProceduralTreeBranch(parentBranch, length*direction);
             Tree.AddBranch(
                 parentBranch,
                 newBranch);
