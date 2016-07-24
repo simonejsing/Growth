@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoShims;
+using VectorMath;
+using Vector2 = VectorMath.Vector2;
 
 namespace WindowsGame
 {
@@ -11,6 +14,8 @@ namespace WindowsGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private Renderer renderer;
 
         public Game1()
         {
@@ -40,7 +45,7 @@ namespace WindowsGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            renderer = new Renderer(this.Content);
         }
 
         /// <summary>
@@ -76,9 +81,9 @@ namespace WindowsGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Lets draw a tree
-
-
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            renderer.DrawVector(spriteBatch, new Vector2(100, -100), new Vector2(200, -200), Color.Black, 3f);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
